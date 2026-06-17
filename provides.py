@@ -106,6 +106,10 @@ class IntegrationRequest:
                         project_domain_id=None,
                         user_domain_id=None,
                         version=None,
+                        application_credential_id=None,
+                        application_credential_name=None,
+                        application_credential_secret=None,
+                        auth_type=None,
             ):
         """
         Set the credentials for this request.
@@ -125,6 +129,10 @@ class IntegrationRequest:
             'user_domain_id': user_domain_id,
             'user_domain_name': user_domain_name,
             'version': version,
+            'application_credential_id': application_credential_id,
+            'application_credential_name': application_credential_name,
+            'application_credential_secret': application_credential_secret,
+            'auth_type': auth_type,
         })
 
     def set_lbaas_config(self,

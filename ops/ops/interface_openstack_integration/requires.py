@@ -5,6 +5,7 @@
 This only implements the requires side, currently, since the providers
 is still using the Reactive Charm framework self.
 """
+
 import base64
 import logging
 from typing import Dict, Optional
@@ -75,15 +76,22 @@ class OpenstackIntegrationRequirer(Object):
         if self._data is None:
             log.error(f"{self.endpoint} relation data not yet available.")
             return False
+        data = self._data
+        if not data.auth_url or not data.region:
+            return False
+        # Application credential mode: only secret + (id or name) needed
+        if data.application_credential_secret and (
+            data.application_credential_id or data.application_credential_name
+        ):
+            return True
+        # Userpass mode: all classic fields required
         return all(
-            field is not None
-            for field in [
-                self._data.auth_url,
-                self._data.username,
-                self._data.password,
-                self._data.user_domain_name,
-                self._data.project_domain_name,
-                self._data.project_name,
+            [
+                data.username,
+                data.password,
+                data.user_domain_name,
+                data.project_domain_name,
+                data.project_name,
             ]
         )
 
@@ -103,7 +111,7 @@ class OpenstackIntegrationRequirer(Object):
 
     @property
     def endpoint_tls_ca(self) -> Optional[bytes]:
-        """Return cloud.conf from integrator relation."""
+        """Return the TLS CA from integrator relation."""
         if self.is_ready and (data := self._data):
             if data.endpoint_tls_ca:
                 return data.endpoint_tls_ca.encode()
