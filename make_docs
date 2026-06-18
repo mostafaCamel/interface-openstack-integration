@@ -4,7 +4,24 @@ import sys
 from shutil import rmtree
 from unittest.mock import patch
 
+import pydocmd.loader
 import pydocmd.__main__
+
+
+_orig_get_function_signature = pydocmd.loader.get_function_signature
+
+
+def _safe_get_function_signature(*args, **kwargs):
+    try:
+        return _orig_get_function_signature(*args, **kwargs)
+    except Exception:
+        # Older pydocmd/yapf releases can fail to pretty-print newer signatures.
+        kwargs = dict(kwargs)
+        kwargs['pretty'] = False
+        return _orig_get_function_signature(*args, **kwargs)
+
+
+pydocmd.loader.get_function_signature = _safe_get_function_signature
 
 
 with patch('charmhelpers.core.hookenv.metadata') as metadata:

@@ -15,7 +15,7 @@ The flags that are set by the provides side of this interface are:
 <h1 id="provides.OpenStackIntegrationProvides">OpenStackIntegrationProvides</h1>
 
 ```python
-OpenStackIntegrationProvides(endpoint_name, relation_ids=None)
+OpenStackIntegrationProvides(self, endpoint_name, relation_ids=None)
 ```
 
 Example usage:
@@ -53,7 +53,7 @@ Mark all requests as completed and remove the `requests-pending` flag.
 <h1 id="provides.IntegrationRequest">IntegrationRequest</h1>
 
 ```python
-IntegrationRequest(unit)
+IntegrationRequest(self, unit)
 ```
 
 A request for integration from a single remote unit.
@@ -69,18 +69,17 @@ Whether or not credentials have been set via `set_credentials`.
 Whether this request has changed since the last time it was
 marked completed (if ever).
 
+<h2 id="provides.IntegrationRequest.proxy_config">proxy_config</h2>
+
+
+Get the proxy config answered on this request.
+
+if `proxy_config` is not set, return an empty dict.
+
 <h2 id="provides.IntegrationRequest.set_credentials">set_credentials</h2>
 
 ```python
-IntegrationRequest.set_credentials(auth_url,
-                                   region,
-                                   username,
-                                   password,
-                                   user_domain_name,
-                                   project_domain_name,
-                                   project_name,
-                                   endpoint_tls_ca,
-                                   version=None)
+IntegrationRequest.set_credentials(auth_url, region, username, password, user_domain_name, project_domain_name, project_name, endpoint_tls_ca, *_, *, domain_id, domain_name, project_id, project_domain_id, user_domain_id, version, application_credential_id, application_credential_name, application_credential_secret, auth_type)
 ```
 
 Set the credentials for this request.
@@ -92,7 +91,9 @@ IntegrationRequest.set_lbaas_config(subnet_id,
                                     floating_network_id,
                                     lb_method,
                                     manage_security_groups,
-                                    has_octavia=None)
+                                    has_octavia=None,
+                                    lb_enabled=None,
+                                    internal_lb=False)
 ```
 
 Set the load-balancer-as-a-service config for this request.
@@ -100,25 +101,18 @@ Set the load-balancer-as-a-service config for this request.
 <h2 id="provides.IntegrationRequest.set_block_storage_config">set_block_storage_config</h2>
 
 ```python
-IntegrationRequest.set_block_storage_config(bs_version, trust_device_path,
+IntegrationRequest.set_block_storage_config(bs_version,
+                                            trust_device_path,
                                             ignore_volume_az)
 ```
 
 Set the block storage config for this request.
 
-<h2 id="provides.IntegrationRequest.proxy_config">proxy_config</h2>
-
-```python
-@property
-IntegrationRequest.proxy_config() -> Dict[str, str]
-```
-
-Retrieve the `proxy_config` currently set by the provider side of the charm.
-
 <h2 id="provides.IntegrationRequest.set_proxy_config">set_proxy_config</h2>
 
 ```python
-IntegrationRequest.set_proxy_config() -> Dict[str, str]
+IntegrationRequest.set_proxy_config(proxy_config: typing.Dict[str, str])
 ```
 
-Share the proxy_config for openstack endpoints from the provider side of the relation.
+Set the proxy config for this request.
+

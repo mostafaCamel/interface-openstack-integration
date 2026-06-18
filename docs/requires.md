@@ -26,7 +26,7 @@ The flags that are set by the requires side of this interface are:
 <h1 id="requires.OpenStackIntegrationRequires">OpenStackIntegrationRequires</h1>
 
 ```python
-OpenStackIntegrationRequires(endpoint_name, relation_ids=None)
+OpenStackIntegrationRequires(self, endpoint_name, relation_ids=None)
 ```
 
 Interface to request integration access.
@@ -61,6 +61,16 @@ The authentication endpoint URL.
 What block storage API version to use, `auto` if autodetection is
 desired, or `None` to use the default.
 
+<h2 id="requires.OpenStackIntegrationRequires.domain_id">domain_id</h2>
+
+
+The domain-id.
+
+<h2 id="requires.OpenStackIntegrationRequires.domain_name">domain_name</h2>
+
+
+The domain name.
+
 <h2 id="requires.OpenStackIntegrationRequires.endpoint_tls_ca">endpoint_tls_ca</h2>
 
 
@@ -88,6 +98,12 @@ Whether to ignore availability zones when attaching Cinder volumes.
 
 Will be `True`, `False`, or `None`.
 
+<h2 id="requires.OpenStackIntegrationRequires.internal_lb">internal_lb</h2>
+
+
+If should force internal loadbalancer use.
+Defaults to false.
+
 <h2 id="requires.OpenStackIntegrationRequires.is_changed">is_changed</h2>
 
 
@@ -97,6 +113,12 @@ Whether or not the request for this instance has changed.
 
 
 Whether or not the request for this instance has been completed.
+
+<h2 id="requires.OpenStackIntegrationRequires.lb_enabled">lb_enabled</h2>
+
+
+Whether or not LoadBalancer service integration should be enabled in
+openstack-cloud-controller-manager.
 
 <h2 id="requires.OpenStackIntegrationRequires.lb_method">lb_method</h2>
 
@@ -116,16 +138,29 @@ Will be `True` or `False`.
 
 The password.
 
+<h2 id="requires.OpenStackIntegrationRequires.project_domain_id">project_domain_id</h2>
+
+
+The project-domain-id.
+
 <h2 id="requires.OpenStackIntegrationRequires.project_domain_name">project_domain_name</h2>
 
 
 The project domain name.
+
+<h2 id="requires.OpenStackIntegrationRequires.project_id">project_id</h2>
+
+
+The project-id.
 
 <h2 id="requires.OpenStackIntegrationRequires.project_name">project_name</h2>
 
 
 The project name, also known as the tenant ID.
 
+<h2 id="requires.OpenStackIntegrationRequires.proxy_config">proxy_config</h2>
+
+Return proxy_config from integrator relation.
 <h2 id="requires.OpenStackIntegrationRequires.region">region</h2>
 
 
@@ -143,6 +178,11 @@ Whether to trust the block device name provided by Ceph.
 
 Will be `True`, `False`, or `None`.
 
+<h2 id="requires.OpenStackIntegrationRequires.user_domain_id">user_domain_id</h2>
+
+
+The user domain id.
+
 <h2 id="requires.OpenStackIntegrationRequires.user_domain_name">user_domain_name</h2>
 
 
@@ -158,13 +198,3 @@ The username.
 
 Optional version number for the APIs or None.
 
-
-<h2 id="requires.OpenStackIntegrationRequires.proxy_config">proxy_config</h2>
-
-```python
-@property
-OpenStackIntegrationRequires.proxy_config() -> Dict[str, str]
-```
-
-Optional `proxy_config` used to indicate to the application proxy details
-necessary to reach the openstack endpoints.
